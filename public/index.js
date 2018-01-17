@@ -68,6 +68,7 @@ var deliveries = [{
   }
 }];
 
+
 //list of actors for payment
 //useful from exercise 5
 const actors = [{
@@ -141,6 +142,24 @@ const actors = [{
   }]
 }];
 
-console.log(truckers);
-console.log(deliveries);
-console.log(actors);
+//exercice 1
+deliveries.forEach(function(element){
+  var trucker = findTruckers(truckers,element.truckerId)
+  element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume
+})
+
+function findTruckers(truckers,idTruck){
+  for (var i = 0; i< truckers.length; i++) {
+    if(truckers[i].id==idTruck){
+        return truckers[i]
+      }
+  }
+}
+
+//exercice 2
+
+
+
+//console.log(truckers);
+//console.log(deliveries);
+//console.log(actors);
