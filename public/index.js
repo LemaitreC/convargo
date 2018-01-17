@@ -181,7 +181,15 @@ function discountHighVolumes(deliverie){
 
 shippingsPrice();
 
-
+//exercice 3
+function makeCommission(){
+  deliveries.forEach(function(deliverie){
+    deliverie.commission.insurance = deliverie.price * 0.3
+    deliverie.commission.treasury = Math.trunc(deliverie.distance / 500)
+    deliverie.commission.convargo = deliverie.price - deliverie.commission.insurance - deliverie.commission.treasury
+  })
+}
+makeCommission()
 
 //console.log(truckers);
 console.log(deliveries);
