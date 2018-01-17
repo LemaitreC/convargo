@@ -149,7 +149,7 @@ const actors = [{
 function shippingsPrice(){
   deliveries.forEach(function(element){
     var trucker = findTruckers(truckers,element.truckerId)
-    element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume *(1-discountHighVolumes(element))
+    element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume *(1-discountHighVolumes(element)) + deductibleOption(element)
   })
 }
 
@@ -178,8 +178,7 @@ function discountHighVolumes(deliverie){
     }
     return discount
 }
-
-shippingsPrice();
+shippingsPrice()
 
 //exercice 3
 function makeCommission(){
@@ -191,6 +190,14 @@ function makeCommission(){
   })
 }
 makeCommission()
+
+//exercice 4
+function deductibleOption(deliverie){
+  if(deliverie.options.deductibleReduction){
+    return deliverie.volume
+  }
+  return 0
+}
 
 //console.log(truckers);
 console.log(deliveries);
