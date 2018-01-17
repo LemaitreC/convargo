@@ -36,7 +36,8 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
-    'convargo': 0
+    'convargo': 0,
+    'treasury': 0
   }
 }, {
   'id': '65203b0a-a864-4dea-81e2-e389515752a8',
@@ -50,7 +51,8 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
-    'convargo': 0
+    'convargo': 0,
+    'treasury': 0
   }
 }, {
   'id': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
@@ -64,7 +66,8 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
-    'convargo': 0
+    'convargo': 0,
+    'treasury': 0
   }
 }];
 
@@ -143,10 +146,12 @@ const actors = [{
 }];
 
 //exercice 1
-deliveries.forEach(function(element){
-  var trucker = findTruckers(truckers,element.truckerId)
-  element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume
-})
+function shippingsPrice(){
+  deliveries.forEach(function(element){
+    var trucker = findTruckers(truckers,element.truckerId)
+    element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume *(1-discountHighVolumes(element))
+  })
+}
 
 function findTruckers(truckers,idTruck){
   for (var i = 0; i< truckers.length; i++) {
@@ -157,9 +162,27 @@ function findTruckers(truckers,idTruck){
 }
 
 //exercice 2
+function discountHighVolumes(deliverie){
+  var discount = 0
+    switch (true) {
+      case (deliverie.volume > 5 && deliverie.volume <= 10):
+        discount = 0.1
+        break;
+      case (deliverie.volume > 10 && deliverie.volume <= 25):
+        discount =  0.3
+        break;
+      case (deliverie.volume > 25):
+        discount = 0.5
+        break;
+      default:
+    }
+    return discount
+}
+
+shippingsPrice();
 
 
 
 //console.log(truckers);
-//console.log(deliveries);
+console.log(deliveries);
 //console.log(actors);
