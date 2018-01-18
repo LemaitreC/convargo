@@ -96,7 +96,7 @@
     "complexity": [2, 12],
 
     // require return statements to either always or never specify values
-    "consistent-return": 2,
+    "consistent-return": 0,
 
     // specify curly brace conventions for all control statements
     "curly": [2, "all"],
@@ -313,7 +313,7 @@
     "eol-last": 2,
 
     // require function expressions to have a name (off by default)
-    "func-names": 2,
+    "func-names": 0,
 
     // enforces use of function declarations or expressions (off by default)
     "func-style": 0, // cannot activate as it breaks `export function myFunc`
@@ -325,7 +325,7 @@
     "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
 
     // disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
-    "linebreak-style": [2, "unix"],
+    //"linebreak-style": [2, "unix"],
 
     // specify the maximum depth callbacks can be nested (off by default)
     "max-nested-callbacks": [2, 4],

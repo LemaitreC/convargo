@@ -71,7 +71,6 @@ var deliveries = [{
   }
 }];
 
-
 //list of actors for payment
 //useful from exercise 5
 const actors = [{
@@ -146,87 +145,88 @@ const actors = [{
 }];
 
 //exercice 1
-function shippingsPrice(){
-  deliveries.forEach(function(element){
-    var trucker = findTruckers(truckers,element.truckerId)
-    element.price = element.distance *  trucker.pricePerKm + element.volume * trucker.pricePerVolume *(1-discountHighVolumes(element)) + deductibleOption(element)
-  })
+function shippingsPrice () {
+  deliveries.forEach(function (element) {
+    var trucker = findTruckers(truckers, element.truckerId);
+
+    element.price = element.distance * trucker.pricePerKm + element.volume * trucker.pricePerVolume * (1 - discountHighVolumes(element)) + deductibleOption(element);
+  });
 }
 
-function findTruckers(truckers,idTruck){
-  for (var i = 0; i< truckers.length; i++) {
-    if(truckers[i].id==idTruck){
-      return truckers[i]
+function findTruckers (idTruck) {
+  for (var i = 0; i < truckers.length; i++) {
+    if (truckers[i].id === idTruck) {
+      return truckers[i];
     }
   }
 }
 
 //exercice 2
-function discountHighVolumes(delivery){
-  var discount = 0
+function discountHighVolumes (delivery) {
+  var discount = 0;
+
   switch (true) {
-    case (delivery.volume > 5 && delivery.volume <= 10):
-    discount = 0.1
+  case delivery.volume > 5 && delivery.volume <= 10:
+    discount = 0.1;
     break;
-    case (delivery.volume > 10 && delivery.volume <= 25):
-    discount =  0.3
+  case delivery.volume > 10 && delivery.volume <= 25:
+    discount = 0.3;
     break;
-    case (delivery.volume > 25):
-    discount = 0.5
+  case delivery.volume > 25:
+    discount = 0.5;
     break;
-    default:
+  default:
   }
-  return discount
+  return discount;
 }
-shippingsPrice()
+shippingsPrice();
 
 //exercice 3
-function makeCommission(){
-  deliveries.forEach(function(delivery){
-    var commission = delivery.price * 0.3
-    delivery.commission.insurance = commission * 0.5
-    delivery.commission.treasury = Math.trunc(delivery.distance / 500) + 1
-    delivery.commission.convargo = commission - delivery.commission.insurance - delivery.commission.treasury
-  })
+function makeCommission () {
+  deliveries.forEach(function (delivery) {
+    var commission = delivery.price * 0.3;
+
+    delivery.commission.insurance = commission * 0.5;
+    delivery.commission.treasury = Math.trunc(delivery.distance / 500) + 1;
+    delivery.commission.convargo = commission - delivery.commission.insurance - delivery.commission.treasury;
+  });
 }
-makeCommission()
+makeCommission();
 
 //exercice 4
-function deductibleOption(delivery){
-  if(delivery.options.deductibleReduction){
-
-    return delivery.volume
+function deductibleOption (delivery) {
+  if (delivery.options.deductibleReduction) {
+    return delivery.volume;
   }
-  return 0
+  return 0;
 }
 
 //exercice 5
-function payActors(){
-  deliveries.forEach(function(delivery){
-    var actor = actors.find(function(actor){
-      if(actor.deliveryId==delivery.id){
-
-        console.log(deductibleOption(delivery))
+function payActors () {
+  deliveries.forEach(function (delivery) {
+    actors.find(function (actor) {
+      if (actor.deliveryId === delivery.id) {
+        console.log(deductibleOption(delivery));
         //shipper
-        actor.payment[0].amount=delivery.price + deductibleOption(delivery)
+        actor.payment[0].amount = delivery.price + deductibleOption(delivery);
 
         //owner
-        actor.payment[1].amount=delivery.price * 0.7
+        actor.payment[1].amount = delivery.price * 0.7;
 
         //insurance
-        actor.payment[2].amount=delivery.commission.insurance
+        actor.payment[2].amount = delivery.commission.insurance;
 
         //treasury
-        actor.payment[3].amount=delivery.commission.treasury
+        actor.payment[3].amount = delivery.commission.treasury;
 
         //convargo
-        actor.payment[4].amount=delivery.commission.convargo + deductibleOption(delivery)
-        console.log(actor)
+        actor.payment[4].amount = delivery.commission.convargo + deductibleOption(delivery);
+        console.log(actor);
       }
-    })
-  })
+    });
+  });
 }
-payActors()
+payActors();
 
 console.log(truckers);
 console.log(deliveries);
