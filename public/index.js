@@ -98,7 +98,7 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '65203b0a-a864-4dea-81e2-e389515752a8',
+  'deliveryId': '65203b0a-a864-4dea-81e2-e389515752a8',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
@@ -121,7 +121,7 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
+  'deliveryId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
@@ -156,49 +156,78 @@ function shippingsPrice(){
 function findTruckers(truckers,idTruck){
   for (var i = 0; i< truckers.length; i++) {
     if(truckers[i].id==idTruck){
-        return truckers[i]
-      }
+      return truckers[i]
+    }
   }
 }
 
 //exercice 2
-function discountHighVolumes(deliverie){
+function discountHighVolumes(delivery){
   var discount = 0
-    switch (true) {
-      case (deliverie.volume > 5 && deliverie.volume <= 10):
-        discount = 0.1
-        break;
-      case (deliverie.volume > 10 && deliverie.volume <= 25):
-        discount =  0.3
-        break;
-      case (deliverie.volume > 25):
-        discount = 0.5
-        break;
-      default:
-    }
-    return discount
+  switch (true) {
+    case (delivery.volume > 5 && delivery.volume <= 10):
+    discount = 0.1
+    break;
+    case (delivery.volume > 10 && delivery.volume <= 25):
+    discount =  0.3
+    break;
+    case (delivery.volume > 25):
+    discount = 0.5
+    break;
+    default:
+  }
+  return discount
 }
 shippingsPrice()
 
 //exercice 3
 function makeCommission(){
-  deliveries.forEach(function(deliverie){
-    var commission = deliverie.price * 0.3
-    deliverie.commission.insurance = commission * 0.5
-    deliverie.commission.treasury = Math.trunc(deliverie.distance / 500) + 1
-    deliverie.commission.convargo = commission - deliverie.commission.insurance - deliverie.commission.treasury
+  deliveries.forEach(function(delivery){
+    var commission = delivery.price * 0.3
+    delivery.commission.insurance = commission * 0.5
+    delivery.commission.treasury = Math.trunc(delivery.distance / 500) + 1
+    delivery.commission.convargo = commission - delivery.commission.insurance - delivery.commission.treasury
   })
 }
 makeCommission()
 
 //exercice 4
-function deductibleOption(deliverie){
-  if(deliverie.options.deductibleReduction){
-    return deliverie.volume
+function deductibleOption(delivery){
+  if(delivery.options.deductibleReduction){
+
+    return delivery.volume
   }
   return 0
 }
 
-//console.log(truckers);
+//exercice 5
+function payActors(){
+  deliveries.forEach(function(delivery){
+    var actor = actors.find(function(actor){
+      if(actor.deliveryId==delivery.id){
+
+        console.log(deductibleOption(delivery))
+        //shipper
+        actor.payment[0].amount=delivery.price + deductibleOption(delivery)
+
+        //owner
+        actor.payment[1].amount=delivery.price * 0.7
+
+        //insurance
+        actor.payment[2].amount=delivery.commission.insurance
+
+        //treasury
+        actor.payment[3].amount=delivery.commission.treasury
+
+        //convargo
+        actor.payment[4].amount=delivery.commission.convargo + deductibleOption(delivery)
+        console.log(actor)
+      }
+    })
+  })
+}
+payActors()
+
+console.log(truckers);
 console.log(deliveries);
-//console.log(actors);
+console.log(actors);
