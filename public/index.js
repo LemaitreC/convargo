@@ -208,7 +208,7 @@ function payActors () {
       if (actor.deliveryId === delivery.id) {
         console.log(deductibleOption(delivery));
         //shipper
-        actor.payment[0].amount = delivery.price + deductibleOption(delivery);
+        actor.payment[0].amount = delivery.price;
 
         //owner
         actor.payment[1].amount = delivery.price * 0.7;
