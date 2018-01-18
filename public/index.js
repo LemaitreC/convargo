@@ -206,7 +206,6 @@ function payActors () {
   deliveries.forEach(function (delivery) {
     actors.find(function (actor) {
       if (actor.deliveryId === delivery.id) {
-        console.log(deductibleOption(delivery));
         //shipper
         actor.payment[0].amount = delivery.price;
 
@@ -221,7 +220,6 @@ function payActors () {
 
         //convargo
         actor.payment[4].amount = delivery.commission.convargo + deductibleOption(delivery);
-        console.log(actor);
       }
     });
   });
