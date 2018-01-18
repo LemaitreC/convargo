@@ -130,11 +130,11 @@ const actors = [{
     'type': 'credit',
     'amount': 0
   }, {
-    'who': 'treasury',
+    'who': 'insurance',
     'type': 'credit',
     'amount': 0
   }, {
-    'who': 'insurance',
+    'who': 'treasury',
     'type': 'credit',
     'amount': 0
   }, {
@@ -147,7 +147,7 @@ const actors = [{
 //exercice 1
 function shippingsPrice () {
   deliveries.forEach(function (element) {
-    var trucker = findTruckers(truckers, element.truckerId);
+    var trucker = findTruckers(element.truckerId);
 
     element.price = element.distance * trucker.pricePerKm + element.volume * trucker.pricePerVolume * (1 - discountHighVolumes(element)) + deductibleOption(element);
   });
